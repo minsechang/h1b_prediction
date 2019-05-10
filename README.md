@@ -21,16 +21,37 @@ For my capstone project, I created three different supervised classifier models 
 to the data set, and implemented three models again with default parameters. All three models turned out to be successful, and parameter tuning was applied to each of them to further optimize performance. XGBoost classifier was selected as the final model due to its high performance and efficiency. The final model was tested with manipulated data with random noise to demonstrate it is robust enough and not significantly affected by noisy and unseen data.
 The set of features is texts entered in different sections of a filed LCA. A successful model enables individuals filing an application to quickly check whether the information they enter in the application is strong enough to be considered by USCIS. This model does not replace an immigration attorney by any means, but could be used as a quick sanity check after a proper application is created.
 
+## Source Data
+
+For this project, official LCA disclosure data from United States Department of Labor was used. Given that the list of columns in the disclosure data changed, only data from years 2014 to 2018 was used.
+```
+https://www.foreignlaborcert.doleta.gov/performancedata.cfm
+```
+
+Below notebook shows quick stats for the used columns using Pandas.
+```
+3_FINAL_RESULT/Data Exploration.ipynb
+```
 ## Algorithms and Techniques
 
-For this project, I used the following algorithms to predict outcome of each LCA application.
+I used the following algorithms to predict outcome of each LCA application.
 
 ### XGBoost
 eXtreme Gradient Boosting is known to push the limits of computing power for gradient boosting by utilizing multiple threads. It is believed to take significantly less time to train than other boosting models and efficient in decreasing chance of overfitting by performing L1 and L2 regularization. It creates a strong classifier based on many weak classifiers, where “weak” and “strong” refer to how closely correlated each learner is to the actual target. Since it adds models on top of each other iteratively, errors from previous “weaker” learners could be corrected by the “stronger” predictor in the next level. This process continues until the training data is accurately predicted by the model. Since we’re dealing with a data that has a lot of noise, it is definitely worth trying.
+```
+3_FINAL_RESULT/XGB_final.ipynb
+```
 
 ### Random Forest
 By constructing multiple simple trees, random forest model is known to alleviate the tendency of overfitting for skewed data. It is also known to handle a large data set with very high dimensionality well. It is trained via bagging method, which randomly sub-samples the training data, fits a decision tree model to each smaller subset (using the best split point), and aggregates the predictions at the end. I trained and tested this model using the entire one-hot encoded dataset to compare the result with the other two models, both of which needed dimensionality reduction due to model complexity.
+```
+3_FINAL_RESULT/RandomForest_final.ipynb
+```
 
 ### Support Vector Machine
 SVC with RBF kernel is known to perform very well when working on points that are not linearly separable. As shown in figure 7, it uses a kernel trick to transform the training set into a higher dimension and finds a separation boundary between classes (called a hyperplane). Hyperplanes are identified by locating support vectors (data points that would change the dividing hyperplane if removed) and their margins. Since linearity between features is not guaranteed, SVC is definitely worth trying despite very expensive computational power. Given the expensive computational cost, dimensionality of training and test set features was reduced by applying PCA with 400 features.
+```
+3_FINAL_RESULT/svc_final.ipynb
+```
+
 
